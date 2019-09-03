@@ -24,7 +24,7 @@ class Group::EducationsController < ApplicationController
   def education_entries
     filter_entries.
       includes(qualifications: { qualification_kind: :translations },
-               event_participations: { event: [:groups, :dates] })
+               event_participations: [:application, { event: [:groups, :dates] }])
   end
 
   def filter_entries

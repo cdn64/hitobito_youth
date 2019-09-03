@@ -35,11 +35,17 @@ module GroupEducationsHelper
 
   def format_open_participation_event(participation)
     event = participation.event
+
     if participation.state == 'tentative'
       link_to(event.name,
               [event.groups.first, event],
               style: 'padding-right: 0.3em') +
              badge('?', 'warning', t('.tentative_participation'))
+    elsif participation.state == 'canceled' ||
+          (participation.application && participation.application.rejected)
+      content_tag :span, style: 'text-decoration: line-through' do
+        link_to(event.name, [event.groups.first, event])
+      end
     else
       link_to(event.name, [event.groups.first, event])
     end
